@@ -1,0 +1,100 @@
+@startuml
+
+namespace Figure {
+    abstract class BaseFigure {
+    }
+    namespace Impl {
+        class Line {
+        }
+        class Polygon {
+        }
+        class Solid {
+        }
+        Line --d|> Figure.BaseFigure
+        Polygon --d|> Figure.BaseFigure
+        Solid --d|> Figure.BaseFigure
+
+        Line -[hidden]r- Polygon
+        Polygon -[hidden]r- Solid
+    }
+
+    class Point {
+    }
+
+    Point --r* BaseFigure
+}
+
+namespace Sizer {
+    namespace Impl {
+        class LineSizer {
+        }
+        class PolygonSizer {
+        }
+        class SolidSizer {
+        }
+
+        LineSizer --u|> AppManager.IPointControllable
+        PolygonSizer --u|> AppManager.IPolygonClosable
+        SolidSizer --u|> AppManager.ISolidMakeable
+
+        LineSizer -[hidden]r- PolygonSizer
+        PolygonSizer -[hidden]r- SolidSizer
+    }
+}
+
+namespace AppManager {
+    class MainAppManager {
+
+    }
+    enum AppState {
+        Intialize
+        Line
+        Polygon
+        Solid
+    }
+
+    interface IPointControllable {
+        Vector3 SetPoint()
+        Vector3 MovePoint()
+    }
+    interface IPolygonClosable {
+        void ClosePolygon()
+    }
+    interface ISolidMakeable{
+        void MakeSolid()
+    }
+    interface IFigureDeletable {
+        void DeleteFigure()
+    }
+    interface IPointDeletable {
+        void DeletePoint
+    }
+
+    MainAppManager --> IPointControllable
+    MainAppManager --> IPolygonClosable
+    MainAppManager --> ISolidMakeable
+    MainAppManager --> IPointDeletable
+    MainAppManager --> IFigureDeletable
+
+    MainAppManager --l> AppState
+
+    IFigureDeletable --|> Figure.BaseFigure
+    IPointDeletable --|> Figure.Point
+
+    IPointControllable <|-- IPolygonClosable
+    IPolygonClosable <|-- ISolidMakeable
+
+    IPointControllable -[hidden]r- IPolygonClosable
+    IPolygonClosable -[hidden]r- ISolidMakeable
+
+    MainAppManager -[hidden]d- IPointControllable
+}
+
+namespace Menu {
+    class MenuButton {
+
+    }
+}
+
+
+@enduml
