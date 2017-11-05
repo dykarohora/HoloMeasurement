@@ -24,27 +24,8 @@ namespace Figure {
     Point --r* BaseFigure
 }
 
-namespace Sizer {
-    namespace Impl {
-        class LineSizer {
-        }
-        class PolygonSizer {
-        }
-        class SolidSizer {
-        }
-
-        LineSizer --u|> AppManager.IPointControllable
-        PolygonSizer --u|> AppManager.IPolygonClosable
-        SolidSizer --u|> AppManager.ISolidMakeable
-
-        LineSizer -[hidden]r- PolygonSizer
-        PolygonSizer -[hidden]r- SolidSizer
-    }
-}
-
 namespace AppManager {
     class MainAppManager {
-
     }
     enum AppState {
         Intialize
@@ -52,42 +33,18 @@ namespace AppManager {
         Polygon
         Solid
     }
+    
+    interface IPointSettable {
+        void SetPoint(GameObject prefab, Vector3 position)
+    }
+}
 
-    interface IPointControllable {
-        Vector3 SetPoint()
-        Vector3 MovePoint()
-    }
-    interface IPolygonClosable {
-        void ClosePolygon()
-    }
-    interface ISolidMakeable{
-        void MakeSolid()
-    }
-    interface IFigureDeletable {
-        void DeleteFigure()
-    }
-    interface IPointDeletable {
-        void DeletePoint
+namespace Sizer {
+    class LineSizer {
+        -Line LineGenerator()
     }
 
-    MainAppManager --> IPointControllable
-    MainAppManager --> IPolygonClosable
-    MainAppManager --> ISolidMakeable
-    MainAppManager --> IPointDeletable
-    MainAppManager --> IFigureDeletable
-
-    MainAppManager --l> AppState
-
-    IFigureDeletable --|> Figure.BaseFigure
-    IPointDeletable --|> Figure.Point
-
-    IPointControllable <|-- IPolygonClosable
-    IPolygonClosable <|-- ISolidMakeable
-
-    IPointControllable -[hidden]r- IPolygonClosable
-    IPolygonClosable -[hidden]r- ISolidMakeable
-
-    MainAppManager -[hidden]d- IPointControllable
+    LineSizer --|> AppManager.IPointSettable
 }
 
 namespace Menu {
