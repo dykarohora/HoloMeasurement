@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Line : MonoBehaviour {
+namespace HoloMeasurement.Figure.Impl
+{
+    public class Line : BaseFigure
+    {
+        private Point _start;
+        private Point _end;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public Line(Point start, Point end)
+        {
+            _start = start;
+            _start.IsLineElem = true;
+            _end = end;
+            _end.IsLineElem = true;
+        }
+
+
+    }
 }

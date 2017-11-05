@@ -18,9 +18,14 @@ namespace Figure {
         Polygon -[hidden]r- Solid
     }
 
+    interface IPointMovable {
+        IReadOnlyReactiveProperty<Vector3> Position
+    }
+
     class Point {
     }
 
+    Point --|> IPointMovable
     Point --r* BaseFigure
 }
 
@@ -37,6 +42,8 @@ namespace AppManager {
     interface IPointSettable {
         void SetPoint(GameObject prefab, Vector3 position)
     }
+
+    MainAppManager --> IPointSettable
 }
 
 namespace Sizer {

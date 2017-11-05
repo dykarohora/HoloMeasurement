@@ -1,14 +1,16 @@
 ﻿using HoloMeasurement.AppManager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using HoloMeasurement.Figure;
+using HoloMeasurement.Figure.Impl;
 
 namespace HoloMeasurement.Sizer.Impl
 {
     public class LineSizer : MonoBehaviour, IPointSettable
     {
+        [SerializeField]
+        private GameObject _linePrefab;
+
         private ReactiveCollection<Point> _pointList = new ReactiveCollection<Point>();
 
         private void Start()
@@ -39,7 +41,18 @@ namespace HoloMeasurement.Sizer.Impl
 
         private void LineGenerate(Point last, Point previous)
         {
-            Debug.Log("Generate Line"); 
+            var lastPos = last.Position.Value;
+            var previousPos = previous.Position.Value;
+
+            var centerPos = (lastPos + previousPos) * 0.5f;
+            var direction = lastPos - previousPos;
+            var distance = Vector3.Distance(lastPos, previousPos);
+
+            var line = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
+            line.transform.localScale = new Vector3(distance, 0.005f, 0.005f);
+            line.transform.Rotate(Vector3.down, 90.0f);
+
+            new Line(previous, last);
         }
     }
 }

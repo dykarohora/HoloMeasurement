@@ -1,0 +1,4 @@
+E:\home\unity-project\HoloMeasurement\App\GeneratedProjects\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
+E:\home\unity-project\HoloMeasurement\App\GeneratedProjects\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+E:\home\unity-project\HoloMeasurement\App\GeneratedProjects\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj;x86
+E:\home\unity-project\HoloMeasurement\App\HoloMeasurement\HoloMeasurement.csproj;x86

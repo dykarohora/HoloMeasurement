@@ -4,19 +4,8 @@ using UnityEngine;
 
 namespace HoloMeasurement.Figure
 {
-    public class BaseFigure : MonoBehaviour
+    public abstract class BaseFigure
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
