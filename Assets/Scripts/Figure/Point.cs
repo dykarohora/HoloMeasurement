@@ -12,7 +12,7 @@ namespace HoloMeasurement.Figure
             get { return _position; }
         }
 
-        public bool IsLineElem { get; set; }
+        // public bool IsLineElem { get; set; }
 
         private bool _isManipulating;
         private Vector3 _lastNavigatePos;
@@ -54,7 +54,6 @@ namespace HoloMeasurement.Figure
         private void Start()
         {
             _isManipulating = false;
-            IsLineElem = false;
 
             this.UpdateAsObservable()
                 .Where(_ => _isManipulating)

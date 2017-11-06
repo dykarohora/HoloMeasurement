@@ -48,11 +48,18 @@ namespace HoloMeasurement.Sizer.Impl
             var direction = lastPos - previousPos;
             var distance = Vector3.Distance(lastPos, previousPos);
 
-            var line = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
-            line.transform.localScale = new Vector3(distance, 0.005f, 0.005f);
-            line.transform.Rotate(Vector3.down, 90.0f);
+            var lineObj = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
+            lineObj.transform.localScale = new Vector3(distance, 0.005f, 0.005f);
+            lineObj.transform.Rotate(Vector3.down, 90.0f);
 
-            new Line(previous, last);
+            var Root = new GameObject();
+            Root.name = "Line";
+            last.transform.parent = Root.transform;
+            previous.transform.parent = Root.transform;
+            lineObj.transform.parent = Root.transform;
+
+            var line = Root.AddComponent<Line>();
+            line.Initialize(previous, last, lineObj);
         }
     }
 }

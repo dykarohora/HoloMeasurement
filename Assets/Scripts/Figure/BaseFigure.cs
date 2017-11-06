@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HoloMeasurement.Figure
 {
-    public abstract class BaseFigure
+    public abstract class BaseFigure : MonoBehaviour 
     {
 
     }
