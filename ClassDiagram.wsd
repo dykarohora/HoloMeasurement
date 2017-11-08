@@ -5,6 +5,7 @@ namespace Figure {
     }
     namespace Impl {
         class Line {
+            +void Intialize(Point start, Point end, GameObject line)
         }
         class Polygon {
         }
@@ -22,14 +23,26 @@ namespace Figure {
         IReadOnlyReactiveProperty<Vector3> Position
     }
 
+
     class Point {
+        +void SetPosition(Vector3 position)
     }
+
+    BaseFigure --l|> AppManager.IDeletable
 
     Point --|> IPointMovable
     Point --r* BaseFigure
+
 }
 
 namespace AppManager {
+    class VoiceCommandManager {
+
+    }
+
+    class GameStateManager {
+
+    }
     class MainAppManager {
     }
     enum AppState {
@@ -42,22 +55,27 @@ namespace AppManager {
     interface IPointSettable {
         void SetPoint(GameObject prefab, Vector3 position)
     }
+    interface IDeletable {
+        void DeleteFigure()
+    }
 
     MainAppManager --> IPointSettable
 }
 
 namespace Sizer {
     class LineSizer {
-        -Line LineGenerator()
     }
-
     LineSizer --|> AppManager.IPointSettable
 }
 
 namespace Menu {
-    class MenuButton {
-
+    class MenuPresenter {
     }
+    class MenuButton {
+    }
+
+    MenuPresenter --d> MenuButton
+    MenuPresenter --d> AppManager.GameStateManager
 }
 
 

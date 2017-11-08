@@ -3,6 +3,8 @@ using UnityEngine;
 using UniRx;
 using HoloMeasurement.Figure;
 using HoloMeasurement.Figure.Impl;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace HoloMeasurement.Sizer.Impl
 {
@@ -17,16 +19,13 @@ namespace HoloMeasurement.Sizer.Impl
         {
             _pointList
                 .ObserveAdd()
-                .Where(_ =>
-                {
-                    return _pointList.Count % 2 == 0 ? true : false;
-                })
+                .Where(_ => _pointList.Count == 2)
                 .Subscribe(_ =>
                 {
-                    var index = _pointList.Count - 1;
-                    var lastPoint = _pointList[index];
-                    var previoudPoint = _pointList[index - 1];
+                    var previoudPoint = _pointList[0];
+                    var lastPoint = _pointList[1];
                     LineGenerate(lastPoint, previoudPoint);
+                    _pointList.Clear();
                 })
                 .AddTo(gameObject);
         }
@@ -49,8 +48,7 @@ namespace HoloMeasurement.Sizer.Impl
             var distance = Vector3.Distance(lastPos, previousPos);
 
             var lineObj = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
-            lineObj.transform.localScale = new Vector3(distance, 0.005f, 0.005f);
-            lineObj.transform.Rotate(Vector3.down, 90.0f);
+            lineObj.transform.localScale = new Vector3(0.005f, 0.005f, distance);
 
             var Root = new GameObject();
             Root.name = "Line";

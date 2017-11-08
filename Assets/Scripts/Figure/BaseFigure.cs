@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HoloMeasurement.AppManager;
 using UnityEngine;
 
 namespace HoloMeasurement.Figure
 {
-    public abstract class BaseFigure : MonoBehaviour 
+    public abstract class BaseFigure : MonoBehaviour, IDeletable
     {
-
+        public abstract void DeleteFigure();
     }
 }

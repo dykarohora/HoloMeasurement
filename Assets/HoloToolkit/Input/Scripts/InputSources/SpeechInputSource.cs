@@ -65,14 +65,14 @@ namespace HoloToolkit.Unity.InputModule
                 {
                     keywords[index] = Keywords[index].Keyword;
                 }
-
+#if !UNITY_EDITOR
                 keywordRecognizer = new KeywordRecognizer(keywords, recognitionConfidenceLevel);
                 keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
-
                 if (RecognizerStart == RecognizerStartBehavior.AutoStart)
                 {
                     keywordRecognizer.Start();
                 }
+#endif
             }
             else
             {
@@ -82,10 +82,14 @@ namespace HoloToolkit.Unity.InputModule
 
         protected virtual void Update()
         {
+#if !UNITY_EDITOR
             if (keywordRecognizer != null && keywordRecognizer.IsRunning)
             {
                 ProcessKeyBindings();
             }
+#else
+            ProcessKeyBindings();
+#endif
         }
 
         protected virtual void OnDestroy()
@@ -114,16 +118,16 @@ namespace HoloToolkit.Unity.InputModule
             }
         }
 
-        #endregion // Unity Methods
+#endregion // Unity Methods
 
-        #region Event Callbacks
+            #region Event Callbacks
 
         private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
         {
             OnPhraseRecognized(args.confidence, args.phraseDuration, args.phraseStartTime, args.semanticMeanings, args.text);
         }
 
-        #endregion // Event Callbacks
+            #endregion // Event Callbacks
 
         /// <summary>
         /// Make sure the keyword recognizer is off, then start it.
@@ -166,7 +170,7 @@ namespace HoloToolkit.Unity.InputModule
         }
 #endif
 
-        #region Base Input Source Methods
+            #region Base Input Source Methods
 
         public override bool TryGetPosition(uint sourceId, out Vector3 position)
         {

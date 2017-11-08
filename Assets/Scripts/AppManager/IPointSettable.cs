@@ -2,7 +2,7 @@
 
 namespace HoloMeasurement.AppManager
 {
-    interface IPointSettable
+    public interface IPointSettable
     {
         void SetPoint(GameObject prefab, Vector3 position);
     }

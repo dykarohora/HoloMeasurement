@@ -1,5 +1,4 @@
-﻿using HoloMeasurement.Sizer.Impl;
-using HoloToolkit.Unity.InputModule;
+﻿using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 
 namespace HoloMeasurement.AppManager
@@ -9,25 +8,15 @@ namespace HoloMeasurement.AppManager
         [SerializeField]
         private GameObject _pointPrefab;
 
-        // Driver
-        private LineSizer _lineSizer;
-
         private void Start()
         {
-            // Driver
-            _lineSizer = GetComponent<LineSizer>();
-            
             InputManager.Instance.PushFallbackInputHandler(gameObject);
         }
 
         public void OnInputClicked(InputClickedEventData eventData)
         {
-            var pointSetter = _lineSizer.GetComponent<IPointSettable>();
-            if(pointSetter != null)
-            {
-                var position = GazeManager.Instance.HitPosition;
-                pointSetter.SetPoint(_pointPrefab, position);
-            }
+            var position = GazeManager.Instance.HitPosition;
+            AppStateManager.Instance.Sizer.SetPoint(_pointPrefab, position);
         }
     }
 }

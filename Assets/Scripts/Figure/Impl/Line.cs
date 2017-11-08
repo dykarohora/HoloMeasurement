@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
 
 namespace HoloMeasurement.Figure.Impl
@@ -32,6 +30,15 @@ namespace HoloMeasurement.Figure.Impl
             }
         }
 
+        public override void DeleteFigure()
+        {
+            // TODO: DestroyではなくObjectPoolingパターンに直したい
+            Destroy(_start);
+            Destroy(_end);
+            Destroy(_line);
+            Destroy(gameObject);
+        }
+
         private void ReculcLine()
         {
             var previousPos = _start.Position.Value;
@@ -43,8 +50,7 @@ namespace HoloMeasurement.Figure.Impl
 
             _line.transform.position = centerPos;
             _line.transform.rotation = Quaternion.LookRotation(direction);
-            _line.transform.localScale = new Vector3(distance, 0.005f, 0.005f);
-            _line.transform.Rotate(Vector3.down, 90.0f);
+            _line.transform.localScale = new Vector3(0.005f, 0.005f, distance);
         }
     }
 }
