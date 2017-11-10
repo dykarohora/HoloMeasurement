@@ -33,10 +33,10 @@ namespace HoloMeasurement.Figure.Impl
         public override void DeleteFigure()
         {
             // TODO: DestroyではなくObjectPoolingパターンに直したい
-            Destroy(_start);
-            Destroy(_end);
-            Destroy(_line);
-            Destroy(gameObject);
+            GameObject.Destroy(_start);
+            GameObject.Destroy(_end);
+            GameObject.Destroy(_line);
+            GameObject.Destroy(gameObject);
         }
 
         private void ReculcLine()

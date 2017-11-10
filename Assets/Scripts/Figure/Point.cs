@@ -5,7 +5,7 @@ using HoloToolkit.Unity.InputModule;
 
 namespace HoloMeasurement.Figure
 {
-    public class Point : MonoBehaviour, IManipulationHandler, IPointMovable
+    public class Point : MonoBehaviour, IManipulationHandler
     {
         private Vector3ReactiveProperty _position = new Vector3ReactiveProperty();
         public IReadOnlyReactiveProperty<Vector3> Position {

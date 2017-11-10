@@ -226,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pointPrefab: {fileID: 1788223836294196, guid: 3a1f499de79df2c498af57a08b4087fa,
     type: 2}
+  _lineSizer: {fileID: 979689561}
 --- !u!4 &979689560
 Transform:
   m_ObjectHideFlags: 0
@@ -263,7 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266294a17a5683343adcd245444d1f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _linesizer: {fileID: 979689561}
 --- !u!1 &989159425
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,47 +11,54 @@ namespace Figure {
         }
         class Solid {
         }
-        Line --d|> Figure.BaseFigure
-        Polygon --d|> Figure.BaseFigure
-        Solid --d|> Figure.BaseFigure
-
-        Line -[hidden]r- Polygon
-        Polygon -[hidden]r- Solid
+        Line --u|> Figure.BaseFigure
+        Line ..u> Figure.Point
+        Polygon --u|> Figure.BaseFigure
+        Solid --u|> Figure.BaseFigure
     }
-
-    interface IPointMovable {
-        IReadOnlyReactiveProperty<Vector3> Position
-    }
-
 
     class Point {
+        +IReadOnlyReactiveProperty<Vector3> Position
         +void SetPosition(Vector3 position)
     }
-
-    BaseFigure --l|> AppManager.IDeletable
-
-    Point --|> IPointMovable
-    Point --r* BaseFigure
-
+    
+    Point --u|> UserOperation.IManipulationHandler
+    Point --l* BaseFigure
+    BaseFigure --u|> UserOperation.IDeletable
 }
 
 namespace AppManager {
-    class VoiceCommandManager {
-
+    class AppStateManager {
+        +AppStateReactiveProperty CurrentState
     }
 
-    class GameStateManager {
-
-    }
-    class MainAppManager {
-    }
     enum AppState {
         Intialize
         Line
         Polygon
         Solid
     }
-    
+    AppStateManager --u> AppState
+}
+
+namespace Sizer {
+    class LineSizer {
+    }
+    class PolygonSizer {
+    }
+    class SolidSizer {
+    }
+
+    LineSizer --r|> UserOperation.IPointSettable
+    LineSizer --> Figure.Impl.Line
+}
+
+namespace UserOperation {
+    class VoiceCommandExecutor {
+    }
+    class PointSetExecutor {
+    }
+
     interface IPointSettable {
         void SetPoint(GameObject prefab, Vector3 position)
     }
@@ -59,24 +66,28 @@ namespace AppManager {
         void DeleteFigure()
     }
 
-    MainAppManager --> IPointSettable
-}
-
-namespace Sizer {
-    class LineSizer {
+    interface IInputClickHandler<<MRTK>>{
     }
-    LineSizer --|> AppManager.IPointSettable
-}
-
-namespace Menu {
-    class MenuPresenter {
-    }
-    class MenuButton {
+    interface IManipulationHandler<<MRTK>>{
     }
 
-    MenuPresenter --d> MenuButton
-    MenuPresenter --d> AppManager.GameStateManager
-}
+    VoiceCommandExecutor --d> IDeletable
+    PointSetExecutor --d> IPointSettable
+    PointSetExecutor --|> IInputClickHandler
 
+    PointSetExecutor ..> AppManager.AppStateManager
+
+    IInputClickHandler -[hidden]d- IManipulationHandler
+
+    namespace Menu {
+        class MenuPresenter {
+        }
+        class MenuButton {
+        }
+
+        MenuPresenter --> MenuButton
+        MenuPresenter --u> AppManager.AppStateManager
+    }
+}
 
 @enduml

@@ -50,13 +50,13 @@ namespace HoloMeasurement.Sizer.Impl
             var lineObj = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
             lineObj.transform.localScale = new Vector3(0.005f, 0.005f, distance);
 
-            var Root = new GameObject();
-            Root.name = "Line";
-            last.transform.parent = Root.transform;
-            previous.transform.parent = Root.transform;
-            lineObj.transform.parent = Root.transform;
+            var root = new GameObject();
+            root.name = "Line";
+            last.transform.parent = root.transform;
+            previous.transform.parent = root.transform;
+            lineObj.transform.parent = root.transform;
 
-            var line = Root.AddComponent<Line>();
+            var line = root.AddComponent<Line>();
             line.Initialize(previous, last, lineObj);
         }
     }

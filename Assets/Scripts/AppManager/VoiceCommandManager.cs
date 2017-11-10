@@ -15,10 +15,13 @@ public class VoiceCommandManager : MonoBehaviour, ISpeechHandler {
         switch(eventData.RecognizedText)
         {
             case "Delete":
-                var deletable = GazeManager.Instance.HitObject.GetComponentInParent<IDeletable>();
-                if(deletable != null)
+                if (GazeManager.Instance.HitObject != null)
                 {
-                    deletable.DeleteFigure();
+                    var deletable = GazeManager.Instance.HitObject.GetComponentInParent<IDeletable>();
+                    if (deletable != null)
+                    {
+                        deletable.DeleteFigure();
+                    }
                 }
                 break;
         }
