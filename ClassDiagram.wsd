@@ -42,15 +42,25 @@ namespace AppManager {
 }
 
 namespace Sizer {
-    class LineSizer {
+    abstract class BaseSizer {
+        #ReactiveCollection<Point> _pointList
+        #GemeObject GenerateLine(Point last, Point previous)
     }
-    class PolygonSizer {
-    }
-    class SolidSizer {
+    namespace Impl {
+        class LineSizer {
+        }
+        class PolygonSizer {
+        }
+        class SolidSizer {
+        }
+        LineSizer --u|> Sizer.BaseSizer
+        PolygonSizer --u|> Sizer.BaseSizer
+        SolidSizer --u|> Sizer.BaseSizer
+
+        LineSizer --> Figure.Impl.Line
     }
 
-    LineSizer --r|> UserOperation.IPointSettable
-    LineSizer --> Figure.Impl.Line
+    BaseSizer --r|> UserOperation.IPointSettable
 }
 
 namespace UserOperation {
@@ -60,10 +70,10 @@ namespace UserOperation {
     }
 
     interface IPointSettable {
-        void SetPoint(GameObject prefab, Vector3 position)
+        +void SetPoint(GameObject prefab, Vector3 position)
     }
     interface IDeletable {
-        void DeleteFigure()
+        +void DeleteFigure()
     }
 
     interface IInputClickHandler<<MRTK>>{

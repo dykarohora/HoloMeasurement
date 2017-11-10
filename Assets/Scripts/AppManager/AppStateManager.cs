@@ -7,6 +7,7 @@ namespace HoloMeasurement.AppManager
 {
     public class AppStateManager : Singleton<AppStateManager>
     {
-        public AppStateReactiveProperty CurrentState { get; set; } = new AppStateReactiveProperty(AppState.Line);
+        private AppStateReactiveProperty _currentState = new AppStateReactiveProperty(AppState.Line);
+        public AppStateReactiveProperty CurrentState { get { return _currentState; } }
     }
 }

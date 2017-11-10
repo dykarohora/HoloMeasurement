@@ -1,20 +1,13 @@
-﻿using HoloMeasurement.AppManager;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
 using HoloMeasurement.Figure;
 using HoloMeasurement.Figure.Impl;
-using System.Collections;
-using System.Collections.Generic;
+using HoloMeasurement.UserOperation;
 
 namespace HoloMeasurement.Sizer.Impl
 {
-    public class LineSizer : MonoBehaviour, IPointSettable
+    public class LineSizer : BaseSizer
     {
-        [SerializeField]
-        private GameObject _linePrefab;
-
-        private ReactiveCollection<Point> _pointList = new ReactiveCollection<Point>();
-
         private void Start()
         {
             _pointList
@@ -22,42 +15,31 @@ namespace HoloMeasurement.Sizer.Impl
                 .Where(_ => _pointList.Count == 2)
                 .Subscribe(_ =>
                 {
-                    var previoudPoint = _pointList[0];
+                    var previousPoint = _pointList[0];
                     var lastPoint = _pointList[1];
-                    LineGenerate(lastPoint, previoudPoint);
+                    var line = GenerateLine(previousPoint, lastPoint);
+                    CreateAggregationObject(lastPoint, previousPoint, line);
                     _pointList.Clear();
                 })
                 .AddTo(gameObject);
         }
 
-        public void SetPoint(GameObject prefab, Vector3 position)
+        public override void SetPoint(GameObject prefab, Vector3 position)
         {
-            var go = Instantiate(prefab, position, Quaternion.identity);
-            var point = go.GetComponent<Point>();
-            point.SetPosition(position);
-            _pointList.Add(point);
+            base.SetPoint(prefab, position);
         }
 
-        private void LineGenerate(Point last, Point previous)
+        private void CreateAggregationObject(Point lastPoint, Point previousPoint, GameObject line)
         {
-            var lastPos = last.Position.Value;
-            var previousPos = previous.Position.Value;
-
-            var centerPos = (lastPos + previousPos) * 0.5f;
-            var direction = lastPos - previousPos;
-            var distance = Vector3.Distance(lastPos, previousPos);
-
-            var lineObj = Instantiate(_linePrefab, centerPos, Quaternion.LookRotation(direction));
-            lineObj.transform.localScale = new Vector3(0.005f, 0.005f, distance);
-
             var root = new GameObject();
             root.name = "Line";
-            last.transform.parent = root.transform;
-            previous.transform.parent = root.transform;
-            lineObj.transform.parent = root.transform;
+            lastPoint.transform.parent = root.transform;
+            previousPoint.transform.parent = root.transform;
+            line.transform.parent = root.transform;
 
-            var line = root.AddComponent<Line>();
-            line.Initialize(previous, last, lineObj);
+            var lineComponent = root.AddComponent<Line>();
+            lineComponent.Initialize(previousPoint, lastPoint, line);
+
         }
     }
 }

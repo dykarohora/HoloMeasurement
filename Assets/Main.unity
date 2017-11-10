@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 979689559}
   - component: {fileID: 979689561}
   - component: {fileID: 979689562}
+  - component: {fileID: 979689563}
   m_Layer: 0
   m_Name: AppManager
   m_TagString: Untagged
@@ -227,6 +228,7 @@ MonoBehaviour:
   _pointPrefab: {fileID: 1788223836294196, guid: 3a1f499de79df2c498af57a08b4087fa,
     type: 2}
   _lineSizer: {fileID: 979689561}
+  _polygonSizer: {fileID: 979689563}
 --- !u!4 &979689560
 Transform:
   m_ObjectHideFlags: 0
@@ -264,6 +266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266294a17a5683343adcd245444d1f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &979689563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 979689558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aec9be21d89d94987685d45a0466b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linePrefab: {fileID: 1335100076424590, guid: 0bd3b61861091e546b90137f10599b18,
+    type: 2}
 --- !u!1 &989159425
 GameObject:
   m_ObjectHideFlags: 0

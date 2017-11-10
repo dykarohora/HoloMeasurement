@@ -5,11 +5,11 @@
 # Write a line equal to 'overwrite-all' (without quotes) to overwrite everything (preserved accross builds)
 # Write a line equal to 'keep-all' (without quotes) to keep files regardless their modification (preserved accross builds)
 # Default behavior is to never overwrite files
-HoloMeasurement.sln: AAF4FF8E2D56C41AED4BCA03AC8D9C24
+HoloMeasurement.sln: modified
 GeneratedProjects\UWP\Assembly-CSharp\project.json: 4FCF72A4D5EDB37E24C206A7BCFE7AF1
 GeneratedProjects\UWP\Assembly-CSharp-firstpass\project.json: 4FCF72A4D5EDB37E24C206A7BCFE7AF1
 HoloMeasurement\App.cs: 47E1582E71D8ABEC169E5BA1307E0760
-HoloMeasurement\HoloMeasurement.csproj: D8BDB802488F55097303C5BA851BF732
+HoloMeasurement\HoloMeasurement.csproj: 860F655A8C4D152B57ACDCC4FA8D8A2A
 HoloMeasurement\HoloMeasurement.csproj.user: modified
 HoloMeasurement\Package.appxmanifest: DA52ED83E224F3905D7C1291A5E60931
 HoloMeasurement\project.json: 1D02BC64BAC0D041019673A1C4C51737
@@ -20,5 +20,6 @@ HoloMeasurement\Assets\Square44x44Logo.targetsize-24_altform-unplated.png: 15663
 HoloMeasurement\Assets\StoreLogo.png: 90BD194CA4A7CFFF3E8B8222229857FB
 HoloMeasurement\Assets\Wide310x150Logo.scale-200.png: C96846A80DF667F87355569CD816192D
 HoloMeasurement\obj\x86\Debug\HoloMeasurement.csproj.CopyComplete: D41D8CD98F00B204E9800998ECF8427E
+HoloMeasurement\obj\x86\Release\HoloMeasurement.csproj.CopyComplete: D41D8CD98F00B204E9800998ECF8427E
 HoloMeasurement\Properties\AssemblyInfo.cs: DD2C7D8807F04BD4F22DCAE873AE70A6
 HoloMeasurement\Properties\Default.rd.xml: 72EB282657164E79A1C42F6240984826
