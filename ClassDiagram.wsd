@@ -8,12 +8,14 @@ namespace Figure {
             +void Intialize(Point start, Point end, GameObject line)
         }
         class Polygon {
+            +void Initialize(IList<Point> pointList, IList<Point> lineList)
         }
         class Solid {
         }
         Line --u|> Figure.BaseFigure
         Line ..u> Figure.Point
         Polygon --u|> Figure.BaseFigure
+        Polygon ..u> Figure.Point
         Solid --u|> Figure.BaseFigure
     }
 
@@ -23,7 +25,7 @@ namespace Figure {
     }
     
     Point --u|> UserOperation.IManipulationHandler
-    Point --l* BaseFigure
+    Point --left* BaseFigure
     BaseFigure --u|> UserOperation.IDeletable
 }
 
@@ -31,7 +33,9 @@ namespace AppManager {
     class AppStateManager {
         +AppStateReactiveProperty CurrentState
     }
-
+    class SizerManager {
+        +IPointSettable Sizer
+    }
     enum AppState {
         Intialize
         Line
@@ -39,11 +43,15 @@ namespace AppManager {
         Solid
     }
     AppStateManager --u> AppState
+
+    SizerManager ..r> AppStateManager
 }
 
 namespace Sizer {
     abstract class BaseSizer {
         #ReactiveCollection<Point> _pointList
+        #{abstract} void OnStart()
+        #{abstract}void WindUpHalfwayObj()
         #GemeObject GenerateLine(Point last, Point previous)
     }
     namespace Impl {
@@ -58,9 +66,12 @@ namespace Sizer {
         SolidSizer --u|> Sizer.BaseSizer
 
         LineSizer --> Figure.Impl.Line
+        PolygonSizer --> Figure.Impl.Polygon
+        PolygonSizer --r|> UserOperation.IPolygonClosable
     }
 
     BaseSizer --r|> UserOperation.IPointSettable
+    BaseSizer ..u> AppManager.AppStateManager
 }
 
 namespace UserOperation {
@@ -72,6 +83,9 @@ namespace UserOperation {
     interface IPointSettable {
         +void SetPoint(GameObject prefab, Vector3 position)
     }
+    interface IPolygonClosable {
+        +void ClosePolygon()
+    }
     interface IDeletable {
         +void DeleteFigure()
     }
@@ -82,12 +96,18 @@ namespace UserOperation {
     }
 
     VoiceCommandExecutor --d> IDeletable
+    VoiceCommandExecutor --l> IPolygonClosable
     PointSetExecutor --d> IPointSettable
-    PointSetExecutor --|> IInputClickHandler
+    PointSetExecutor --l|> IInputClickHandler
 
-    PointSetExecutor ..> AppManager.AppStateManager
+    VoiceCommandExecutor ..u> AppManager.SizerManager
+    PointSetExecutor ..u> AppManager.SizerManager
 
     IInputClickHandler -[hidden]d- IManipulationHandler
+    IPolygonClosable -[hidden]r- IDeletable
+
+    PointSetExecutor -[hidden]r- IPolygonClosable
+    
 
     namespace Menu {
         class MenuPresenter {

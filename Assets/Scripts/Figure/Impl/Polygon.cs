@@ -35,18 +35,17 @@ namespace HoloMeasurement.Figure.Impl
         public override void DeleteFigure()
         {
             foreach (var point in _pointList)
-                Destroy(point);
+                Destroy(point.gameObject);
 
             foreach (var line in _lineList)
-                Destroy(line);
+                Destroy(line.gameObject);
 
             Destroy(gameObject);
         }
 
         private void ReculcPolygon(Point movedPoint)
         {
-            // 同じオブジェクトであることが重要なので等値演算子で判断
-            var index = _pointList.FindIndex(pointElem => pointElem == movedPoint);
+            var index = _pointList.IndexOf(movedPoint);
             var previousIndex = (index - 1 < 0) ? _pointList.Count - 1 : index - 1;
             var nextIndex = (index + 1 >= _pointList.Count) ? 0 : index + 1;
             // 前後のポイントを拾ってくる
@@ -57,7 +56,20 @@ namespace HoloMeasurement.Figure.Impl
             var centerPos = (movedPointPos + previousPointPos) * 0.5f;
             var direction = movedPointPos - previousPointPos;
             var distance = Vector3.Distance(movedPointPos, previousPointPos);
+
+            var previousLine = _lineList[previousIndex];
+            previousLine.transform.position = centerPos;
+            previousLine.transform.rotation = Quaternion.LookRotation(direction);
+            previousLine.transform.localScale = new Vector3(0.005f, 0.005f, distance);
             // 後ポイントとのラインを修正する
+            centerPos = (movedPointPos + nextPointPos) * 0.5f;
+            direction = nextPointPos - movedPointPos;
+            distance = Vector3.Distance(movedPointPos, nextPointPos);
+
+            var nextLine = _lineList[index];
+            nextLine.transform.position = centerPos;
+            nextLine.transform.rotation = Quaternion.LookRotation(direction);
+            nextLine.transform.localScale = new Vector3(0.005f, 0.005f, distance);
         
         }
     }

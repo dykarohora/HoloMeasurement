@@ -1,4 +1,5 @@
-﻿using HoloMeasurement.Figure;
+﻿using HoloMeasurement.AppManager;
+using HoloMeasurement.Figure;
 using HoloMeasurement.UserOperation;
 using UniRx;
 using UnityEngine;
@@ -11,6 +12,21 @@ namespace HoloMeasurement.Sizer
         protected GameObject _linePrefab;
 
         protected ReactiveCollection<Point> _pointList = new ReactiveCollection<Point>();
+
+        private void Start()
+        {
+            AppStateManager.Instance.CurrentState
+                .Subscribe(state =>
+                {
+                    WindUpHalfwayObj();
+                })
+                .AddTo(gameObject);
+
+            OnStart();
+        }
+
+        protected abstract void OnStart();  // サブクラスのStartの代替
+        protected abstract void WindUpHalfwayObj();
 
         public virtual void SetPoint(GameObject prefab, Vector3 position)
         {

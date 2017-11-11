@@ -27,6 +27,13 @@ namespace HoloMeasurement.UserOperation
                         }
                     }
                     break;
+                case "Close":
+                    var sizer = SizerManager.Instance.Sizer as IPolygonClosable;
+                    if(sizer != null)
+                    {
+                        sizer.ClosePolygon();
+                    }
+                    break;
             }
         }
     }

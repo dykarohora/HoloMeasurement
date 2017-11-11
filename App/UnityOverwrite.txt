@@ -9,9 +9,9 @@ HoloMeasurement.sln: modified
 GeneratedProjects\UWP\Assembly-CSharp\project.json: 4FCF72A4D5EDB37E24C206A7BCFE7AF1
 GeneratedProjects\UWP\Assembly-CSharp-firstpass\project.json: 4FCF72A4D5EDB37E24C206A7BCFE7AF1
 HoloMeasurement\App.cs: 47E1582E71D8ABEC169E5BA1307E0760
-HoloMeasurement\HoloMeasurement.csproj: 860F655A8C4D152B57ACDCC4FA8D8A2A
+HoloMeasurement\HoloMeasurement.csproj: 17D243DC61AA5661253EED65DD4E3E61
 HoloMeasurement\HoloMeasurement.csproj.user: modified
-HoloMeasurement\Package.appxmanifest: DA52ED83E224F3905D7C1291A5E60931
+HoloMeasurement\Package.appxmanifest: FEA31054FE433252F46FBF062DC1326A
 HoloMeasurement\project.json: 1D02BC64BAC0D041019673A1C4C51737
 HoloMeasurement\Assets\SplashScreen.scale-200.png: 60618416282ED104FD1473935716045D
 HoloMeasurement\Assets\Square150x150Logo.scale-200.png: E02834B4A5DFB97FF8E212C1CACBB084

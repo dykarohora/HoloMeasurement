@@ -8,7 +8,7 @@ namespace HoloMeasurement.Sizer.Impl
 {
     public class LineSizer : BaseSizer
     {
-        private void Start()
+        protected override void OnStart()
         {
             _pointList
                 .ObserveAdd()
@@ -39,7 +39,14 @@ namespace HoloMeasurement.Sizer.Impl
 
             var lineComponent = root.AddComponent<Line>();
             lineComponent.Initialize(previousPoint, lastPoint, line);
+        }
 
+        protected override void WindUpHalfwayObj()
+        {
+            foreach(var point in _pointList)
+                Destroy(point.gameObject);
+
+            _pointList.Clear();
         }
     }
 }
