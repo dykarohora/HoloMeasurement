@@ -3,6 +3,7 @@
 namespace Figure {
     abstract class BaseFigure {
     }
+
     namespace Impl {
         class Line {
             +void Intialize(Point start, Point end, GameObject line)
@@ -10,13 +11,14 @@ namespace Figure {
         class Polygon {
             +void Initialize(IList<Point> pointList, IList<Point> lineList)
         }
-        class Solid {
-        }
-        Line --u|> Figure.BaseFigure
-        Line ..u> Figure.Point
-        Polygon --u|> Figure.BaseFigure
-        Polygon ..u> Figure.Point
-        Solid --u|> Figure.BaseFigure
+
+        Line -le-|> Figure.BaseFigure
+        Line .le.> Figure.Point
+
+        Polygon -le-|> Figure.BaseFigure
+        Polygon .le.> Figure.Point
+
+        Line -[hidden]do- Polygon
     }
 
     class Point {
@@ -24,27 +26,10 @@ namespace Figure {
         +void SetPosition(Vector3 position)
     }
     
-    Point --u|> UserOperation.IManipulationHandler
-    Point --left* BaseFigure
-    BaseFigure --u|> UserOperation.IDeletable
-}
+    Point -do-|> UserOperation.IManipulationHandler
+    Point -ri-* BaseFigure
 
-namespace AppManager {
-    class AppStateManager {
-        +AppStateReactiveProperty CurrentState
-    }
-    class SizerManager {
-        +IPointSettable Sizer
-    }
-    enum AppState {
-        Intialize
-        Line
-        Polygon
-        Solid
-    }
-    AppStateManager --u> AppState
-
-    SizerManager ..r> AppStateManager
+    BaseFigure -do-|> UserOperation.IDeletable
 }
 
 namespace Sizer {
@@ -59,20 +44,42 @@ namespace Sizer {
         }
         class PolygonSizer {
         }
-        class SolidSizer {
-        }
-        LineSizer --u|> Sizer.BaseSizer
-        PolygonSizer --u|> Sizer.BaseSizer
-        SolidSizer --u|> Sizer.BaseSizer
 
-        LineSizer --> Figure.Impl.Line
-        PolygonSizer --> Figure.Impl.Polygon
-        PolygonSizer --r|> UserOperation.IPolygonClosable
+        LineSizer -ri-|> Sizer.BaseSizer
+        PolygonSizer -ri-|> Sizer.BaseSizer
+
+        LineSizer -[hidden]d- PolygonSizer
+
+        LineSizer -ri-> Figure.Impl.Line
+        PolygonSizer -ri-> Figure.Impl.Polygon
+        PolygonSizer -do-|> UserOperation.IPolygonClosable
     }
 
-    BaseSizer --r|> UserOperation.IPointSettable
-    BaseSizer ..u> AppManager.AppStateManager
+    BaseSizer --|> UserOperation.IPointSettable
+    BaseSizer ..> AppManager.AppStateManager
+
+    BaseSizer -[hidden]r- Figure.BaseFigure
 }
+
+namespace AppManager {
+    enum AppState {
+        Intialize
+        Line
+        Polygon
+        Solid
+    }
+
+    class AppStateManager {
+        +AppStateReactiveProperty CurrentState
+    }
+    class SizerManager {
+        +IPointSettable Sizer
+    }
+
+    AppStateManager --u> AppState
+    SizerManager ..r> AppStateManager
+}
+
 
 namespace UserOperation {
     class VoiceCommandExecutor {
@@ -95,19 +102,13 @@ namespace UserOperation {
     interface IManipulationHandler<<MRTK>>{
     }
 
-    VoiceCommandExecutor --d> IDeletable
-    VoiceCommandExecutor --l> IPolygonClosable
-    PointSetExecutor --d> IPointSettable
-    PointSetExecutor --l|> IInputClickHandler
+    VoiceCommandExecutor -up-> IDeletable
+    VoiceCommandExecutor -up-> IPolygonClosable
+    PointSetExecutor -up-> IPointSettable
+    PointSetExecutor --|> IInputClickHandler
 
-    VoiceCommandExecutor ..u> AppManager.SizerManager
-    PointSetExecutor ..u> AppManager.SizerManager
-
-    IInputClickHandler -[hidden]d- IManipulationHandler
-    IPolygonClosable -[hidden]r- IDeletable
-
-    PointSetExecutor -[hidden]r- IPolygonClosable
-    
+    VoiceCommandExecutor .up.> AppManager.SizerManager
+    PointSetExecutor .up.> AppManager.SizerManager
 
     namespace Menu {
         class MenuPresenter {
@@ -116,7 +117,9 @@ namespace UserOperation {
         }
 
         MenuPresenter --> MenuButton
-        MenuPresenter --u> AppManager.AppStateManager
+        MenuPresenter -up-> AppManager.AppStateManager
+
+        MenuPresenter -[hidden]ri- UserOperation.IPointSettable
     }
 }
 

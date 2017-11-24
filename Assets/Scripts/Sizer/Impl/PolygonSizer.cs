@@ -1,7 +1,5 @@
-﻿using HoloMeasurement.Figure;
-using HoloMeasurement.Figure.Impl;
+﻿using HoloMeasurement.Figure.Impl;
 using HoloMeasurement.UserOperation;
-using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
