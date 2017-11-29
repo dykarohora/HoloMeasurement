@@ -1,0 +1,60 @@
+@startuml
+
+namespace Figure {
+    class Point {
+
+    }
+
+    abstract class BaseFigure {
+        +void Delete()
+    }
+
+    namespace Impl {
+        class Line {
+            +void Initialize()
+        }
+        class Polygon {
+            +void Initialize()
+        }
+
+        Line --|> Figure.BaseFigure
+        Polygon --|> Figure.BaseFigure
+    }
+
+    Point --l* BaseFigure
+}
+namespace Sizer {
+    abstract class BaseSizer {
+        #ReactiveCollection<Point> _pointList
+    }
+
+    namespace Impl {
+        class LineSizer {
+
+        }
+        class PolygonSizer {
+
+        }
+
+        LineSizer -[hidden]d- PolygonSizer
+        LineSizer --|> Sizer.BaseSizer
+        PolygonSizer --|> Sizer.BaseSizer
+
+        LineSizer --l> Figure.Impl.Line
+        PolygonSizer --l> Figure.Impl.Polygon
+
+        PolygonSizer --|> UserOperation.IPolygonClosable
+    }
+}
+namespace UserOperation {
+    interface IPolygonClosable {
+        +void PolygonClose()
+    }
+}
+namespace Menu {
+
+}
+namespace AppManager {
+
+}
+@enduml
